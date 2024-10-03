@@ -33,6 +33,8 @@ module.exports = router;
 
     http://localhost:5000/api/messages?category={category}
 
+    http://localhost:5000/api/messages?category=cute&featured=false
+
     http://localhost:5000/api/messages/testing
 
 
