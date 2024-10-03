@@ -50,7 +50,8 @@
     },
     {
         "message": "You are the reason my heart beats a little faster and my smile grows a little wider.",
-        "category": "romantic"
+        "category": "romantic",
+        "featured": true
     },
     {
         "message": "In your arms, I've found my home and in your heart, I've found my forever.",
@@ -106,7 +107,8 @@
     },
     {
         "message": "On your birthday, I just want to remind you how much you mean to me. You're my world, and I'm so lucky to have you by my side.",
-        "category": "birthday"
+        "category": "birthday",
+        "featured": true
     },
     {
         "message": "Happy birthday to my better half! I can't wait to create more amazing memories with you this year.",
@@ -115,5 +117,26 @@
     {
         "message": "Happy birthday to my better half! I can't wait to create more amazing memories with you this year.",
         "category": "birthday"
+    },
+    {
+        "message": "You're my favorite notification. Every time I see your name pop up, my heart skips a beat.",
+        "category": "cute",
+        "featured": true
+    },
+    {
+        "message": "Every time I think of you, I smile a little wider. You make my world brighter just by being in it.",
+        "category": "cute"
+    },
+    {
+        "message": "You are the peanut butter to my jelly, the sun to my shine, and the beat to my heart.",
+        "category": "cute"
+    },
+    {
+        "message": "You make my heart do a happy dance every time I see you!",
+        "category": "cute"
+    },
+    {
+        "message": "Being with you feels like coming home—safe, warm, and full of love.",
+        "category": "cute"
     }
 ]
