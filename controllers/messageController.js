@@ -7,6 +7,27 @@ const getRandomMessage = async () => {
 
 const getMessage = async(req, res) => {
     try {
+        // Validate 'category' if it's present in the query
+        if (req.query.category) {
+            const validCategories = await Message.distinct('category');
+            if (!validCategories.includes(req.query.category)) {
+                return res.status(400).json({
+                    status: 400,
+                    statusText: 'Bad Request',
+                    message: `Invalid category: ${req.query.category}`,
+                });
+            }
+        }
+
+        // Validate 'featured' if it's present in the query
+        if (req.query.featured && !['true', 'false'].includes(req.query.featured)) {
+            return res.status(400).json({
+                status: 400,
+                statusText: 'Bad Request',
+                message: `'featured' must be either 'true' or 'false'`,
+            });
+        }
+
         if (req.query.random === 'true') {
             // Return a single random message if 'random=true' is passed in the query parameters
             const randomMessage = await getRandomMessage();
