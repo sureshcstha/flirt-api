@@ -136,7 +136,7 @@ const deleteMessage = async (req, res) => {
 
 const getAllMessagesTesting = async(req, res) => {
     try {
-        const pickupLines = await Message.find(req.query);
+        const pickupLines = await Message.find({});
         return res.status(200).json({
             status: 200,
             statusText: 'OK',
