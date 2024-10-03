@@ -8,7 +8,7 @@ const getRandomMessage = async () => {
 const getMessage = async(req, res) => {
     try {
         const validationErrors = [];
-        const validQueryParams = ['random', 'category', 'featured']; // Define supported query parameters
+        const validQueryParams = ['random', 'category', 'featured', 'sort', 'select']; // Define supported query parameters
 
         // Check if there are any unsupported query parameters
         const queryKeys = Object.keys(req.query);
@@ -41,6 +41,33 @@ const getMessage = async(req, res) => {
             });
         }
 
+        const {message, category, featured, sort, select} = req.query;
+        const queryObject = {};
+        
+        if (category) {
+            queryObject.category = category;
+        }
+        if (featured) {
+            queryObject.featured = featured === 'true';
+        }
+        if (message) {
+            queryObject.message = { $regex: message, $options: 'i' }; // Example: case-insensitive search for message
+        }
+
+        let query = Message.find(queryObject);
+
+        // Handle sorting
+        if (sort) {
+            const sortBy = sort.split(',').join(' '); // Handle multiple sorting criteria
+            query = query.sort(sortBy);
+        }
+
+        // Handle selecting specific fields
+        if (select) {
+            const fields = select.split(',').join(' '); // Handle multiple fields
+            query = query.select(fields);
+        }
+
         if (req.query.random === 'true') {
             // Return a single random message if 'random=true' is passed in the query parameters
             const randomMessage = await getRandomMessage();
@@ -52,7 +79,7 @@ const getMessage = async(req, res) => {
             });
         } else {
             // Return all messages if no 'random=true' query parameter is passed
-            const pickupLines = await Message.find(req.query);
+            const pickupLines = await query;
             return res.status(200).json({
                 status: 200,
                 statusText: 'OK',

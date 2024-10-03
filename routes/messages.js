@@ -35,6 +35,18 @@ module.exports = router;
 
     http://localhost:5000/api/messages?category=cute&featured=false
 
+    http://localhost:5000/api/messages?sort=-category
+
+    http://localhost:5000/api/messages?sort=-featured
+
+    http://localhost:5000/api/messages?sort=category,message
+
+    http://localhost:5000/api/messages?sort=-category,-message
+
+    http://localhost:5000/api/messages?sort=category&select=message,category
+
+    http://localhost:5000/api/messages?select=message
+
     http://localhost:5000/api/messages/testing
 
 
