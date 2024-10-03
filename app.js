@@ -14,6 +14,15 @@ app.get("/", (req, res) => {
 // middleware
 app.use("/api/messages", lines_routes);
 
+// Catch-all middleware for undefined routes
+app.use((req, res, next) => {
+    res.status(404).json({
+        status: 404,
+        statusText: 'Not Found',
+        message: 'The requested resource was not found on this server'
+    });
+});
+
 const start = async() => {
     try {
         await connectDB(process.env.MONGODB_URL);

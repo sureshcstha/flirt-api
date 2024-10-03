@@ -7,24 +7,37 @@ const getRandomMessage = async () => {
 
 const getMessage = async(req, res) => {
     try {
+        const validationErrors = [];
+        const validQueryParams = ['random', 'category', 'featured']; // Define supported query parameters
+
+        // Check if there are any unsupported query parameters
+        const queryKeys = Object.keys(req.query);
+        queryKeys.forEach((key) => {
+            if (!validQueryParams.includes(key)) {
+                validationErrors.push(`Invalid query parameter: ${key}`);
+            }
+        });
+
         // Validate 'category' if it's present in the query
         if (req.query.category) {
             const validCategories = await Message.distinct('category');
             if (!validCategories.includes(req.query.category)) {
-                return res.status(400).json({
-                    status: 400,
-                    statusText: 'Bad Request',
-                    message: `Invalid category: ${req.query.category}`,
-                });
+                validationErrors.push(`Invalid category: ${req.query.category}`);
             }
         }
 
         // Validate 'featured' if it's present in the query
         if (req.query.featured && !['true', 'false'].includes(req.query.featured)) {
+            validationErrors.push(`'featured' must be either 'true' or 'false'`);
+        }
+
+        // If there are any validation errors, return them
+        if (validationErrors.length > 0) {
             return res.status(400).json({
                 status: 400,
                 statusText: 'Bad Request',
-                message: `'featured' must be either 'true' or 'false'`,
+                message: 'Validation errors occurred',
+                errors: validationErrors
             });
         }
 
