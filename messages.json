@@ -138,5 +138,114 @@
     {
         "message": "Being with you feels like coming home—safe, warm, and full of love.",
         "category": "cute"
+    },
+    {
+        "message": "Happy anniversary to the person who still makes my heart race.",
+        "category": "anniversary"
+    },
+    {
+        "message": "Wishing you the happiest birthday, my love! You make every day feel like a celebration.",
+        "category": "birthday"
+    },
+    {
+        "message": "You're not just my partner; you're my inspiration and my strength.",
+        "category": "supportive",
+        "featured": true
+    },
+    {
+        "message": "Roses are red, violets are blue, life feels perfect whenever I'm with you.",
+        "category": "poetic"
+    },
+    {
+        "message": "Every moment with you is like a beautiful dream I never want to wake up from.",
+        "category": "romantic"
+    },
+    {
+        "message": "I'm always grateful to have you in my life, you make the world a better place.",
+        "category": "gratitude"
+    },
+    {
+        "message": "I believe in you, no matter what happens. You've got this!",
+        "category": "inspirational"
+    },
+    {
+        "message": "If loving you is a crime, I'm ready to serve a life sentence.",
+        "category": "flirty"
+    },
+    {
+        "message": "You're my favorite 'hello' and my hardest 'goodbye.'",
+        "category": "cute"
+    },
+    {
+        "message": "Our love is like a song, and you're the melody I can't get out of my head.",
+        "category": "poetic"
+    },
+    {
+        "message": "You make every day brighter just by being in it.",
+        "category": "cute",
+        "featured": true
+    },
+    {
+        "message": "You're my person, my forever, and my favorite adventure.",
+        "category": "anniversary",
+        "featured": true
+    },
+    {
+        "message": "If I could rearrange the alphabet, I'd put 'U' and 'I' together.",
+        "category": "flirty"
+    },
+    {
+        "message": "No matter what life throws at us, I know we can get through it together.",
+        "category": "supportive",
+        "featured": true
+    },
+    {
+        "message": "Thank you for always having my back. I'm so lucky to have you.",
+        "category": "gratitude"
+    },
+    {
+        "message": "Are you a magician? Because whenever I look at you, everyone else disappears.",
+        "category": "flirty"
+    },
+    {
+        "message": "I must be a snowflake, because I've fallen for you.",
+        "category": "cute"
+    },
+    {
+        "message": "You and I are like a perfect equation, balanced and beautiful.",
+        "category": "nerd"
+    },
+    {
+        "message": "To the love of my life, thank you for being my strength and my heart.",
+        "category": "gratitude"
+    },
+    {
+        "message": "Happy birthday to the person who makes every day feel like a gift.",
+        "category": "birthday"
+    },
+    {
+        "message": "Are you from Mars? Because your beauty is out of this world.",
+        "category": "flirty"
+    },
+    {
+        "message": "Life without you is like a broken pencil—pointless.",
+        "category": "funny"
+    },
+    {
+        "message": "You've got this. No matter what happens, I'm here for you.",
+        "category": "supportive"
+    },
+    {
+        "message": "Every time I look at you, I fall in love all over again.",
+        "category": "romantic",
+        "featured": true
+    },
+    {
+        "message": "I'm forever grateful for the way you love me unconditionally.",
+        "category": "gratitude"
+    },
+    {
+        "message": "You're stronger than you know. You inspire me every day.",
+        "category": "inspirational"
     }
 ]
