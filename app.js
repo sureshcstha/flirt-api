@@ -1,11 +1,16 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const connectDB = require("./db/connect");
 
 const PORT = process.env.PORT || 5000;
 
 const lines_routes = require("./routes/messages");
+
+// Middleware
+app.use(cors()); // Enable CORS for all origins
+app.use(express.json()); // Parse JSON request bodies
 
 app.get("/", (req, res) => {
     res.send("Hi, I am live.")
