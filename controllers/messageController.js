@@ -1,4 +1,5 @@
 const Message = require("../models/message");
+const mongoose = require("mongoose");
 
 // Function to get a single random message
 const getRandomMessage = async () => {
@@ -139,9 +140,57 @@ const createMessage = async (req, res) => {
     }
 };
 
+// Get an existing message by ID
+const getMessageById = async (req, res) => {
+    const { id } = req.params; // Extract the ID from the route parameters
+
+    // Validate ID format
+    if (!mongoose.isValidObjectId(id)) {
+        return res.status(400).json({
+            status: 400,
+            statusText: 'Bad Request',
+            message: 'Invalid message ID format',
+        });
+    }
+
+    try {
+        // Find the message by its ID
+        const message = await Message.findById(id);
+        if (!message) {
+            return res.status(404).json({
+                status: 404,
+                statusText: 'Not Found',
+                message: 'Message not found',
+            });
+        }
+        return res.status(200).json({
+            status: 200,
+            statusText: 'OK',
+            message: 'Message retrieved successfully',
+            data: message,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            status: 500,
+            statusText: 'Error',
+            message: 'Error retrieving message',
+            error: error.message,
+        });
+    }
+};
+
 // Update an existing message by ID
 const updateMessage = async (req, res) => {
     const { id } = req.params; // Get the message ID from the URL parameters
+
+    if (!mongoose.isValidObjectId(id)) {
+        return res.status(400).json({
+            status: 400,
+            statusText: 'Bad Request',
+            message: 'Invalid message ID format',
+        });
+    }
+
     try {
         const updatedMessage = await Message.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
         if (!updatedMessage) {
@@ -170,6 +219,15 @@ const updateMessage = async (req, res) => {
 // Delete a message by ID
 const deleteMessage = async (req, res) => {
     const { id } = req.params; // Get the message ID from the URL parameters
+
+    if (!mongoose.isValidObjectId(id)) {
+        return res.status(400).json({
+            status: 400,
+            statusText: 'Bad Request',
+            message: 'Invalid message ID format',
+        });
+    }
+    
     try {
         const deletedMessage = await Message.findByIdAndDelete(id);
         if (!deletedMessage) {
@@ -214,4 +272,4 @@ const getAllMessagesTesting = async(req, res) => {
     }
 };
 
-module.exports = { getMessage, getAllCategories, createMessage, updateMessage, deleteMessage, getAllMessagesTesting };
+module.exports = { getMessage, getAllCategories, createMessage, getMessageById, updateMessage, deleteMessage, getAllMessagesTesting };

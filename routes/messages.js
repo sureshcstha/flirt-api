@@ -5,6 +5,7 @@ const {
   getMessage,
   getAllCategories,
   createMessage,
+  getMessageById,
   updateMessage,
   deleteMessage,
   getAllMessagesTesting,
@@ -14,6 +15,7 @@ router.route("/").get(getMessage); // Get all messages
 router.route("/categories").get(getAllCategories); // Get all categories
 
 router.route("/message").post(createMessage); // Create a new message
+router.route('/message/:id').get(getMessageById); // Get a message by ID
 router.route("/message/:id").put(updateMessage); // Update a message by ID
 router.route("/message/:id").delete(deleteMessage); // Delete a message by ID
 
