@@ -23,8 +23,9 @@ const messageSchema = new mongoose.Schema({
         "poetic",
         "romantic",
         "supportive",
+        "valentine's day",
       ],
-      message: `{VALUE} is not a valid category. Please choose from "anniversary", "apologetic", "birthday", "cute", "dirty", "flirty", "funny", "gratitude", "inspirational", "nerd", "poetic", "romantic", or "supportive".`,
+      message: `{VALUE} is not a valid category. Please choose from "anniversary", "apologetic", "birthday", "cute", "dirty", "flirty", "funny", "gratitude", "inspirational", "nerd", "poetic", "romantic", "supportive", or "valentine's day".`,
     },
   },
   featured: {
