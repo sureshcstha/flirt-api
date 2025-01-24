@@ -9,7 +9,7 @@ const getRandomMessage = async () => {
 const getMessage = async(req, res) => {
     try {
         const validationErrors = [];
-        const validQueryParams = ['random', 'category', 'featured', 'sort', 'select']; // Define supported query parameters
+        const validQueryParams = ['random', 'category', 'featured', 'sort', 'select', 'page', 'limit']; // Define supported query parameters
 
         // Check if there are any unsupported query parameters
         const queryKeys = Object.keys(req.query);
@@ -68,6 +68,27 @@ const getMessage = async(req, res) => {
             const fields = select.split(',').join(' '); // Handle multiple fields
             query = query.select(fields);
         }
+        
+        // Pagination logic
+        let page = Number(req.query.page) || 1;
+        let limit = Number(req.query.limit) || 30;
+
+        // Validate page and limit
+        if (page <= 0) page = 1;
+        if (limit <= 0) limit = 30;
+
+        let skip = (page - 1) * limit;
+        query = query.skip(skip).limit(limit);
+
+        // Check if the skip value exceeds the total number of messages
+        const totalMessages = await Message.countDocuments(queryObject);
+        if (skip >= totalMessages && totalMessages > 0) {
+            return res.status(404).json({
+                status: 404,
+                statusText: 'Not Found',
+                message: 'No messages found for the given page',
+            });
+        }
 
         if (req.query.random === 'true') {
             // Return a single random message if 'random=true' is passed in the query parameters
@@ -85,7 +106,13 @@ const getMessage = async(req, res) => {
                 status: 200,
                 statusText: 'OK',
                 message: 'All love messages retrieved successfully',
-                data: pickupLines
+                data: pickupLines,
+                pagination: {
+                    total: totalMessages,
+                    page: page,
+                    limit: limit,
+                    totalPages: Math.ceil(totalMessages / limit)
+                }
             });
         }
     } catch (error) {
