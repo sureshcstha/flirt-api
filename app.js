@@ -9,6 +9,7 @@ const connectDB = require("./db/connect");
 const PORT = process.env.PORT || 5000;
 
 const lines_routes = require("./routes/messages");
+const apiAuthRoutes = require("./routes/apiAuthRoutes");
 
 // Swagger configuration
 const swaggerOptions = {
@@ -27,13 +28,26 @@ const swaggerOptions = {
       ],
     },
     apis: ["./swagger/*.js"],
-  };
+};
   
-  // Initialize swagger-jsdoc
-  const swaggerDocs = swaggerJSDoc(swaggerOptions);
+// Initialize swagger-jsdoc
+const swaggerDocs = swaggerJSDoc(swaggerOptions);
 
-// Middleware
-app.use(cors()); // Enable CORS for all origins
+// cors
+const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : [];
+
+app.use(cors({
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
 app.use(express.json()); // Parse JSON request bodies
 
 // Swagger UI
@@ -44,7 +58,8 @@ app.get("/", (req, res) => {
 });
 
 // middleware
-app.use("/api/messages", lines_routes);
+app.use("/messages", lines_routes);
+app.use("/api/auth", apiAuthRoutes);
 
 // Catch-all middleware for undefined routes
 app.use((req, res, next) => {
