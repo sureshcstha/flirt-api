@@ -10,7 +10,7 @@ const apiUserSchema = new mongoose.Schema({
     minlength: 12,
     validate: {
       validator: function (value) {
-        return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^?&*()-_+=[]{}~`])[A-Za-z\d!@#$%^?&*()-_+=[]{}~`]{12,}$/.test(value);
+        return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^?&*()-_+=\[\]{}~`])[A-Za-z\d!@#$%^?&*()-_+=\[\]{}~`]{12,}$/.test(value);
       },
       message: "Password must be at least 12 characters long, include one uppercase letter, one lowercase letter, one number, and one special character."
     }
