@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 const { sendVerificationEmail } = require("../services/emailService");
 const { sanitizeInput } = require('../utils/helpers');
 
+const REDIRECT_URL = process.env.USER_VERIFICATION_REDIRECT_URL || "http://localhost:3000/login";
+
 // User Signup
 exports.signup = async (req, res) => {
     let { firstName, lastName, email, password } = req.body;
@@ -57,8 +59,15 @@ exports.verify = async (req, res) => {
       user.isVerified = true;
       user.verificationToken = undefined; // Remove token after verification
       await user.save();
+
+    // Check if request is from a browser or API client
+    if (req.headers.accept && req.headers.accept.includes("text/html")) {
+        // Redirect to frontend login page
+        return res.redirect(`${REDIRECT_URL}?verified=true`);
+    } 
   
-      res.json({ message: "Email verified successfully. You can now log in." });
+    // Return JSON response for API requests
+    res.json({ message: "Email verified successfully. You can now log in." });
     } catch (error) {
       res.status(500).json({ message: "Error verifying email", error });
     }

@@ -4,7 +4,7 @@ const { signup, verify, login, changePassword, deleteUser } = require('../contro
 const router = express.Router();
 
 router.post('/signup', signup);
-router.post('/verify/:token', verify);
+router.get('/verify/:token', verify);
 router.post("/login", login);
 router.put("/change-password", changePassword);
 router.delete("/delete", deleteUser);
