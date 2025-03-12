@@ -5,6 +5,8 @@ const messageSchema = new mongoose.Schema({
     type: String,
     required: [true, "Message must be provided."],
     trim: true,
+    unique: true,
+    maxlength: 500
   },
   category: {
     type: String,
@@ -18,6 +20,7 @@ const messageSchema = new mongoose.Schema({
         "flirty",
         "funny",
         "gratitude",
+        "heartfelt",
         "inspirational",
         "nerd",
         "poetic",
@@ -25,16 +28,27 @@ const messageSchema = new mongoose.Schema({
         "supportive",
         "valentine's day",
       ],
-      message: `{VALUE} is not a valid category. Please choose from "anniversary", "apologetic", "birthday", "cute", "dirty", "flirty", "funny", "gratitude", "inspirational", "nerd", "poetic", "romantic", "supportive", or "valentine's day".`,
+      message: `{VALUE} is not a valid category. Please choose from "anniversary", "apologetic", "birthday", "cute", "dirty", "flirty", "funny", "gratitude", "heartfelt", "inspirational", "nerd", "poetic", "romantic", "supportive", or "valentine's day".`,
     },
   },
   featured: {
     type: Boolean,
     default: false,
   },
+  status: {
+    type: String,
+    enum: {
+      values: [
+        "draft",
+        "published",
+      ],
+      message: `{VALUE} is not a valid status.`,
+    },
+    default: "draft",
+  },
   createdAt: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
 });
 

@@ -1,5 +1,6 @@
 const Message = require("../models/message");
 const mongoose = require("mongoose");
+const { sanitizeInput } = require('../utils/helpers');
 
 // Function to get a single random message
 const getRandomMessage = async () => {
@@ -149,8 +150,11 @@ const getAllCategories = async (req, res) => {
 // Create a new message
 const createMessage = async (req, res) => {
     try {
+        req.body.message = sanitizeInput(req.body.message); // Sanitize
+
         const newMessage = new Message(req.body);
         await newMessage.save();
+
         res.status(201).json({
             status: 201,
             statusText: 'Created',
@@ -219,6 +223,10 @@ const updateMessage = async (req, res) => {
     }
 
     try {
+        if (req.body.message) {
+            req.body.message = sanitizeInput(req.body.message);
+        }
+
         const updatedMessage = await Message.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
         if (!updatedMessage) {
             return res.status(404).json({

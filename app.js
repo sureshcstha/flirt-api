@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 5000;
 
 const lines_routes = require("./routes/messages");
 const apiAuthRoutes = require("./routes/apiAuthRoutes");
+const userAuthRoutes = require("./routes/userAuthRoutes");
 
 // Swagger configuration
 const swaggerOptions = {
@@ -60,6 +61,7 @@ app.get("/", (req, res) => {
 // middleware
 app.use("/messages", lines_routes);
 app.use("/api/auth", apiAuthRoutes);
+app.use("/users", userAuthRoutes);
 
 // Catch-all middleware for undefined routes
 app.use((req, res, next) => {

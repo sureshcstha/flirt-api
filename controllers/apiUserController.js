@@ -26,10 +26,10 @@ exports.signup = async (req, res) => {
     }
 
     try {
-        let user = await ApiUser.findOne({ email });
+        let user = await ApiUser.findOne({ email: email.toLowerCase() });
 
         if (user) {
-        return res.status(400).json({ error: "Email already registered" });
+            return res.status(400).json({ error: "Email already registered" });
         }
 
         const clientId = await generateUniqueClientId();
