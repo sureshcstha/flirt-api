@@ -2,274 +2,344 @@
     {
         "message": "I hope you know CPR because you just took my breath away!",
         "category": "cute",
-        "featured": true
+        "featured": true,
+        "status": "published"
     },
     {
         "message": "Do you have a map? I just got lost in your eyes.",
-        "category": "romantic"
+        "category": "romantic",
+        "status": "published"
     },
     {
         "message": "Is your name Google? Because you have everything I'm searching for.",
-        "category": "nerd"
+        "category": "nerd",
+        "status": "published"
     },
     {
         "message": "If you let me borrow a kiss, I promise I'll give it right back.",
-        "category": "dirty"
+        "category": "dirty",
+        "status": "published"
     },
     {
         "message": "Is your name Wi-Fi? Because I'm feeling a connection.",
-        "category": "nerd"
+        "category": "nerd",
+        "status": "published"
     },
     {
         "message": "4+4=8 but you+me=fate",
-        "category": "funny"
+        "category": "funny",
+        "status": "published"
     },
     {
         "message": "If kisses were snowflakes, I'd send you a blizzard!",
-        "category": "flirty"
+        "category": "flirty",
+        "status": "published"
     },
     {
         "message": "Every moment with you feels like a dream I never want to wake up from. You are my forever.",
-        "category": "romantic"
+        "category": "romantic",
+        "status": "published"
     },
     {
         "message": "You must be made of copper and tellurium because you're Cu-Te!",
-        "category": "nerd"
+        "category": "nerd",
+        "status": "published"
     },
     {
         "message": "You are the moon that lights my darkest nights, the sun that warms my soul in the coldest hours.",
-        "category": "poetic"
+        "category": "poetic",
+        "status": "published"
     },
     {
         "message": "Together, we are unstoppable. You inspire me to be the best version of myself every day.",
-        "category": "inspirational"
+        "category": "inspirational",
+        "status": "published"
     },
     {
         "message": "You're my favorite algorithm, and I'll keep running you in my heart forever.",
-        "category": "nerd"
+        "category": "nerd",
+        "status": "published"
     },
     {
         "message": "You are the reason my heart beats a little faster and my smile grows a little wider.",
         "category": "romantic",
-        "featured": true
+        "featured": true,
+        "status": "published"
     },
     {
         "message": "In your arms, I've found my home and in your heart, I've found my forever.",
-        "category": "romantic"
+        "category": "romantic",
+        "status": "published"
     },
     {
         "message": "If being in love with you is wrong, then I don't want to be right!",
-        "category": "flirty"
+        "category": "flirty",
+        "status": "published"
     },
     {
         "message": "Our love is like the ocean—vast, deep, and endless, pulling me into your tides again and again.",
-        "category": "poetic"
+        "category": "poetic",
+        "status": "published"
     },
     {
         "message": "You are the poetry my heart writes every day, with every beat whispering your name.",
-        "category": "poetic"
+        "category": "poetic",
+        "status": "published"
     },
     {
         "message": "With you by my side, I feel like I can conquer the world. Your love is my greatest motivation.",
-        "category": "inspirational"
+        "category": "inspirational",
+        "status": "published"
     },
     {
         "message": "You are the light that brightens my darkest days, the strength that lifts me when I feel weak.",
-        "category": "inspirational"
+        "category": "inspirational",
+        "status": "published"
     },
     {
         "message": "No matter what happens, I'll be by your side, lifting you up and loving you through it all.",
-        "category": "supportive"
+        "category": "supportive",
+        "status": "published"
     },
     {
         "message": "You are stronger than you think, and I'll be right here, cheering you on every step of the way.",
-        "category": "supportive"
+        "category": "supportive",
+        "status": "published"
     },
     {
         "message": "I'm sorry for hurting you. My love for you is stronger than my mistakes, and I'm committed to making things right.",
-        "category": "apologetic"
+        "category": "apologetic",
+        "status": "published"
     },
     {
         "message": "I hate seeing you upset because of me. Let's find a way to fix this together, because you mean the world to me.",
-        "category": "apologetic"
+        "category": "apologetic",
+        "status": "published"
     },
     {
         "message": "Thank you for being the love of my life. You make every day brighter, and I'm forever grateful for you.",
-        "category": "gratitude"
+        "category": "gratitude",
+        "status": "published"
     },
     {
         "message": "I don't say it enough, but I appreciate everything you do for us. You make my world a better place.",
-        "category": "gratitude"
+        "category": "gratitude",
+        "status": "published"
     },
     {
         "message": "Happy birthday to the love of my life! Every day with you is a gift, but today, we celebrate the incredible person you are.",
-        "category": "birthday"
+        "category": "birthday",
+        "status": "published"
     },
     {
         "message": "On your birthday, I just want to remind you how much you mean to me. You're my world, and I'm so lucky to have you by my side.",
         "category": "birthday",
-        "featured": true
+        "featured": true,
+        "status": "published"
     },
     {
         "message": "Happy birthday to my better half! I can't wait to create more amazing memories with you this year.",
-        "category": "birthday"
-    },
-    {
-        "message": "Happy birthday to my better half! I can't wait to create more amazing memories with you this year.",
-        "category": "birthday"
+        "category": "birthday",
+        "status": "published"
     },
     {
         "message": "You're my favorite notification. Every time I see your name pop up, my heart skips a beat.",
         "category": "cute",
-        "featured": true
+        "featured": true,
+        "status": "published"
     },
     {
         "message": "Every time I think of you, I smile a little wider. You make my world brighter just by being in it.",
-        "category": "cute"
+        "category": "cute",
+        "status": "published"
     },
     {
         "message": "You are the peanut butter to my jelly, the sun to my shine, and the beat to my heart.",
-        "category": "cute"
+        "category": "cute",
+        "status": "published"
     },
     {
         "message": "You make my heart do a happy dance every time I see you!",
-        "category": "cute"
+        "category": "cute",
+        "status": "published"
     },
     {
         "message": "Being with you feels like coming home—safe, warm, and full of love.",
-        "category": "cute"
+        "category": "cute",
+        "status": "published"
     },
     {
         "message": "Happy anniversary to the person who still makes my heart race.",
-        "category": "anniversary"
+        "category": "anniversary",
+        "status": "published"
     },
     {
         "message": "Wishing you the happiest birthday, my love! You make every day feel like a celebration.",
-        "category": "birthday"
+        "category": "birthday",
+        "status": "published"
     },
     {
         "message": "You're not just my partner; you're my inspiration and my strength.",
         "category": "supportive",
-        "featured": true
+        "featured": true,
+        "status": "published"
     },
     {
         "message": "Roses are red, violets are blue, life feels perfect whenever I'm with you.",
-        "category": "poetic"
+        "category": "poetic",
+        "status": "published"
     },
     {
         "message": "Every moment with you is like a beautiful dream I never want to wake up from.",
-        "category": "romantic"
+        "category": "romantic",
+        "status": "published"
     },
     {
         "message": "I'm always grateful to have you in my life, you make the world a better place.",
-        "category": "gratitude"
+        "category": "gratitude",
+        "status": "published"
     },
     {
         "message": "I believe in you, no matter what happens. You've got this!",
-        "category": "inspirational"
+        "category": "inspirational",
+        "status": "published"
     },
     {
         "message": "If loving you is a crime, I'm ready to serve a life sentence.",
-        "category": "flirty"
+        "category": "flirty",
+        "status": "published"
     },
     {
         "message": "You're my favorite 'hello' and my hardest 'goodbye.'",
-        "category": "cute"
+        "category": "cute",
+        "status": "published"
     },
     {
         "message": "Our love is like a song, and you're the melody I can't get out of my head.",
-        "category": "poetic"
+        "category": "poetic",
+        "status": "published"
     },
     {
         "message": "You make every day brighter just by being in it.",
         "category": "cute",
-        "featured": true
+        "featured": true,
+        "status": "published"
     },
     {
         "message": "You're my person, my forever, and my favorite adventure.",
         "category": "anniversary",
-        "featured": true
+        "featured": true,
+        "status": "published"
     },
     {
         "message": "If I could rearrange the alphabet, I'd put 'U' and 'I' together.",
-        "category": "flirty"
+        "category": "flirty",
+        "status": "published"
     },
     {
         "message": "No matter what life throws at us, I know we can get through it together.",
         "category": "supportive",
-        "featured": true
+        "featured": true,
+        "status": "published"
     },
     {
         "message": "Thank you for always having my back. I'm so lucky to have you.",
-        "category": "gratitude"
+        "category": "gratitude",
+        "status": "published"
     },
     {
         "message": "Are you a magician? Because whenever I look at you, everyone else disappears.",
-        "category": "flirty"
+        "category": "flirty",
+        "status": "published"
     },
     {
         "message": "I must be a snowflake, because I've fallen for you.",
-        "category": "cute"
+        "category": "cute",
+        "status": "published"
     },
     {
         "message": "You and I are like a perfect equation, balanced and beautiful.",
-        "category": "nerd"
+        "category": "nerd",
+        "status": "published"
     },
     {
         "message": "To the love of my life, thank you for being my strength and my heart.",
-        "category": "gratitude"
+        "category": "gratitude",
+        "status": "published"
     },
     {
         "message": "Happy birthday to the person who makes every day feel like a gift.",
-        "category": "birthday"
+        "category": "birthday",
+        "status": "published"
     },
     {
         "message": "Are you from Mars? Because your beauty is out of this world.",
-        "category": "flirty"
+        "category": "flirty",
+        "status": "published"
     },
     {
         "message": "Life without you is like a broken pencil—pointless.",
-        "category": "funny"
+        "category": "funny",
+        "status": "published"
     },
     {
         "message": "You've got this. No matter what happens, I'm here for you.",
-        "category": "supportive"
+        "category": "supportive",
+        "status": "published"
     },
     {
         "message": "Every time I look at you, I fall in love all over again.",
         "category": "romantic",
-        "featured": true
+        "featured": true,
+        "status": "published"
     },
     {
         "message": "I'm forever grateful for the way you love me unconditionally.",
-        "category": "gratitude"
+        "category": "gratitude",
+        "status": "published"
     },
     {
         "message": "You're stronger than you know. You inspire me every day.",
-        "category": "inspirational"
+        "category": "inspirational",
+        "status": "published"
     },
     {
         "message": "Happy Valentine's Day to the love of my life. You make my heart skip a beat every single day!",
-        "category": "valentine's day"
+        "category": "valentine's day",
+        "status": "published"
     },
     {
         "message": "Forever grateful to have you in my life. Sending you all my love this Valentine's Day.",
-        "category": "valentine's day"
+        "category": "valentine's day",
+        "status": "published"
     },
     {
         "message": "My heart belongs to you today and every day. Happy Valentine's Day, my soulmate.",
-        "category": "valentine's day"
+        "category": "valentine's day",
+        "status": "published"
     },
     {
         "message": "I fall in love with you a little more each day. Happy Valentine's Day to my one and only.",
-        "category": "valentine's day"
+        "category": "valentine's day",
+        "status": "published"
     },
     {
         "message": "Every moment with you feels like a beautiful dream. Wishing you a Valentine's Day as wonderful as you are.",
-        "category": "valentine's day"
+        "category": "valentine's day",
+        "status": "published"
     },
     {
         "message": "You make my heart smile. Happy Valentine's Day to the sweetest person I know!",
-        "category": "valentine's day"
+        "category": "valentine's day",
+        "status": "published"
+    },
+    {
+        "message": "From the moment I met you, my world changed in ways I never imagined. Your smile brightens my darkest days, and your love fills my heart with warmth and joy. Every moment with you is a blessing, and I cherish every laugh, every hug, and every second by your side. No words can truly capture how much you mean to me, but I promise to spend my life showing you. You are my heart, my soul, my forever.",
+        "category": "heartfelt",
+        "status": "published"
+    },
+    {
+        "message": "Every day with you feels like a beautiful dream I never want to wake up from. Your love is the melody that plays in my heart, the warmth that comforts my soul. I never knew love could be this deep, this real, until you came into my life. No matter where life takes us, I promise to stand by your side, through every storm and every sunshine. You are my love, my best friend, and my greatest blessing. I love you more than words can ever say.",
+        "category": "heartfelt"
     }
 ]
