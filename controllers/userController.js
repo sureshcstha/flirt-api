@@ -27,13 +27,18 @@ exports.signup = async (req, res) => {
 
         const verificationToken = crypto.randomBytes(16).toString("hex");
 
+        // Check if this is the first user
+        const userCount = await User.countDocuments();
+        const role = userCount === 0 ? "superadmin" : "guest"; // Assign 'superadmin' to the first user
+
         user = new User({
             firstName,
             lastName: lastName || "",
             email,
             password,
             verificationToken,
-            isVerified: false
+            isVerified: false,
+            role
         });
 
         await Promise.all([

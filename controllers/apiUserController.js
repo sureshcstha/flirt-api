@@ -34,8 +34,12 @@ exports.signup = async (req, res) => {
 
         const clientId = await generateUniqueClientId();
         const clientSecret = await generateClientSecret();
+
+        // Check if this is the first user
+        const userCount = await ApiUser.countDocuments();
+        const role = userCount === 0 ? "superadmin" : "admin"; // Assign 'superadmin' to first user
         
-        user = new ApiUser({ email, password, clientId, clientSecret });
+        user = new ApiUser({ email, password, clientId, clientSecret, role });
         await user.save();
 
       // Respond with clientId and clientSecret
