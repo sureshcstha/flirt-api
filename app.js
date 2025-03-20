@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
 const swaggerJSDoc = require("swagger-jsdoc");
+const cookieParser = require("cookie-parser");
 const app = express();
 const connectDB = require("./db/connect");
 
@@ -45,6 +46,7 @@ app.use(cors({
             callback(new Error("Not allowed by CORS"));
         }
     },
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
@@ -53,6 +55,8 @@ app.use(express.json()); // Parse JSON request bodies
 
 // Swagger UI
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
     res.send("Hi, I am live.")

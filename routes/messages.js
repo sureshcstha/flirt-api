@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const authenticateUser = require("../middleware/authenticateUser");
+const authorize = require("../middleware/authorize");
 
 const {
   getMessage,
@@ -14,10 +16,13 @@ const {
 router.route("/").get(getMessage); // Get all messages
 router.route("/categories").get(getAllCategories); // Get all categories
 
-router.route("/message").post(createMessage); // Create a new message
-router.route('/message/:id').get(getMessageById); // Get a message by ID
-router.route("/message/:id").put(updateMessage); // Update a message by ID
-router.route("/message/:id").delete(deleteMessage); // Delete a message by ID
+router.route("/message")
+  .post(authenticateUser, authorize(["contributor", "editor", "admin", "superadmin"]), createMessage); // Create a new message
+
+router.route('/message/:id')
+  .get(getMessageById) // Get a message by ID
+  .put(authenticateUser, authorize(["editor", "admin", "superadmin"]), updateMessage) // Update a message
+  .delete(authenticateUser, authorize(["superadmin"]), deleteMessage); // Delete a message
 
 router.route("/testing").get(getAllMessagesTesting);
 

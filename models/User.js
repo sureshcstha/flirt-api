@@ -26,6 +26,7 @@ const userSchema = new mongoose.Schema({
     isVerified: { type: Boolean, default: false },
     resetPasswordToken: { type: String },
     resetPasswordExpires: { type: Date },
+    refreshToken: { type: String },
     createdAt: { type: Date, default: Date.now }
 });
 

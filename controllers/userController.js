@@ -5,6 +5,7 @@ const { sendVerificationEmail, resetPasswordEmail } = require("../services/email
 const { sanitizeInput } = require('../utils/helpers');
 
 const REDIRECT_URL = process.env.USER_VERIFICATION_REDIRECT_URL || "http://localhost:3000/login";
+const isProduction = process.env.NODE_ENV === "production";
 
 // User Signup
 exports.signup = async (req, res) => {
@@ -104,29 +105,81 @@ exports.login = async (req, res) => {
             return res.status(401).json({ error: "Invalid credentials." });
         }
 
-        // Define expiration time
-        const expiresIn = "604800"; // 7 days
+       // Define expiration times
+       const accessTokenExpiresIn = 30 * 60; // 30 minutes
+       const refreshTokenExpiresIn = 7 * 24 * 60 * 60; // 7 days
 
-        // Generate JWT token
-        const token = jwt.sign(
-            { userId: user._id, role: user.role },
-            process.env.JWT_SECRET,
-            { expiresIn }
-        );
+       // Generate access token
+       const accessToken = jwt.sign(
+           { userId: user._id, role: user.role },
+           process.env.JWT_SECRET,
+           { expiresIn: accessTokenExpiresIn }
+       );
 
-        const response = {
-            message: "Login successful.",
-            email: user.email,
-            token,
-            expires_in: expiresIn,
-            refresh_token_expires_in: "0",
-            refresh_count: "0"
-        };
-        
-        res.json(response);
+       // Generate refresh token
+       const refreshToken = jwt.sign(
+           { userId: user._id },
+           process.env.JWT_REFRESH_SECRET,
+           { expiresIn: refreshTokenExpiresIn }
+       );
+
+       // Store refresh token in DB
+       user.refreshToken = refreshToken;
+       await user.save();
+
+       // Set tokens in cookies
+       res.cookie("access_token", accessToken, {
+           httpOnly: true,
+           secure: isProduction,
+           sameSite: "None",
+           maxAge: accessTokenExpiresIn * 1000,
+       });
+
+       res.cookie("refresh_token", refreshToken, {
+           httpOnly: true,
+           secure: isProduction,
+           sameSite: "None",
+           maxAge: refreshTokenExpiresIn * 1000,
+       });
+
+       res.json({ message: "Login successful." });
     } catch (error) {
         console.error("Login error:", error);
         res.status(500).json({ error: error.message });
+    }
+};
+
+//  To refresh the access token when the old one expires
+exports.refreshToken = async (req, res) => {
+    const refreshToken = req.cookies.refresh_token;
+    if (!refreshToken) {
+        return res.status(403).json({ error: "Refresh token is required" });
+    }
+
+    try {
+        const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+        const user = await User.findById(decoded.userId);
+        if (!user || !user.refreshToken || user.refreshToken !== refreshToken) {
+            return res.status(403).json({ error: "Invalid refresh token" });
+        }
+
+        // Generate a new access token
+        const newAccessToken = jwt.sign(
+            { userId: user._id, role: user.role },
+            process.env.JWT_SECRET,
+            { expiresIn: 30 * 60 }
+        );
+
+        res.cookie("access_token", newAccessToken, {
+            httpOnly: true,
+            secure: isProduction,
+            sameSite: "None",
+            maxAge: 30 * 60 * 1000,
+        });
+
+        res.json({ message: "Token refreshed." });
+    } catch (error) {
+        res.status(403).json({ error: "Invalid or expired refresh token" });
     }
 };
 
@@ -252,5 +305,42 @@ exports.resetPassword = async (req, res) => {
     } catch (error) {
         console.error("Reset password error:", error);
         res.status(500).json({ error: "Server error" });
+    }
+};
+
+// Logout 
+exports.logout = async (req, res) => {
+    try {
+        if (!req.user || !req.user._id) {
+            return res.status(401).json({ error: "Unauthorized request." });
+        }
+
+        const user = await User.findById(req.user._id);
+        if (!user) {
+            return res.status(404).json({ error: "User not found." });
+        }
+
+        // Remove refresh token from DB
+        user.refreshToken = null;
+        await user.save();
+
+        // Clear cookies
+        res.clearCookie("access_token", {
+            httpOnly: true,
+            secure: isProduction,
+            sameSite: "None",
+            path: "/"
+        });
+        res.clearCookie("refresh_token", {
+            httpOnly: true,
+            secure: isProduction,
+            sameSite: "None",
+            path: "/"
+        });
+
+        res.json({ message: "Logged out successfully." });
+    } catch (error) {
+        console.error("Logout error:", error);
+        res.status(500).json({ error: "Logout failed. Please try again." });
     }
 };
