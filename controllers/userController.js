@@ -141,8 +141,11 @@ exports.login = async (req, res) => {
            sameSite: "None",
            maxAge: refreshTokenExpiresIn * 1000,
        });
-
-       res.json({ message: "Login successful." });
+       
+       res.json({
+            message: "Login successful.",
+            user: { id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email, role: user.role },
+        });
     } catch (error) {
         console.error("Login error:", error);
         res.status(500).json({ error: error.message });
