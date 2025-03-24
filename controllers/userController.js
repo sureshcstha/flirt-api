@@ -7,6 +7,10 @@ const { sanitizeInput } = require('../utils/helpers');
 const REDIRECT_URL = process.env.USER_VERIFICATION_REDIRECT_URL || "http://localhost:3000/login";
 const isProduction = process.env.NODE_ENV === "production";
 
+// Define expiration times
+const accessTokenExpiresIn = 30 * 60; // 30 minutes
+const refreshTokenExpiresIn = 7 * 24 * 60 * 60; // 7 days
+
 // User Signup
 exports.signup = async (req, res) => {
     let { firstName, lastName, email, password } = req.body;
@@ -105,10 +109,6 @@ exports.login = async (req, res) => {
             return res.status(401).json({ error: "Invalid credentials." });
         }
 
-       // Define expiration times
-       const accessTokenExpiresIn = 30 * 60; // 30 minutes
-       const refreshTokenExpiresIn = 7 * 24 * 60 * 60; // 7 days
-
        // Generate access token
        const accessToken = jwt.sign(
            { userId: user._id, role: user.role },
@@ -141,7 +141,7 @@ exports.login = async (req, res) => {
            sameSite: "None",
            maxAge: refreshTokenExpiresIn * 1000,
        });
-       
+
        res.json({
             message: "Login successful.",
             user: { id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email, role: user.role },
@@ -170,14 +170,14 @@ exports.refreshToken = async (req, res) => {
         const newAccessToken = jwt.sign(
             { userId: user._id, role: user.role },
             process.env.JWT_SECRET,
-            { expiresIn: 30 * 60 }
+            { expiresIn: accessTokenExpiresIn }
         );
 
         res.cookie("access_token", newAccessToken, {
             httpOnly: true,
             secure: isProduction,
             sameSite: "None",
-            maxAge: 30 * 60 * 1000,
+            maxAge: accessTokenExpiresIn * 1000,
         });
 
         res.json({ message: "Token refreshed." });
