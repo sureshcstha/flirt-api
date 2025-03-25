@@ -34,7 +34,7 @@ exports.signup = async (req, res) => {
 
         // Check if this is the first user
         const userCount = await User.countDocuments();
-        const role = userCount === 0 ? "superadmin" : "guest"; // Assign 'superadmin' to the first user
+        const role = userCount === 0 ? "superadmin" : "contributor"; // Assign 'superadmin' to the first user
 
         user = new User({
             firstName,
