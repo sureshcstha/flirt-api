@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
     role: { 
         type: String, 
         enum: ["guest", "contributor", "editor", "admin", "superadmin"], 
-        default: "guest"
+        default: "contributor"
     },
     verificationToken: { type: String },
     isVerified: { type: Boolean, default: false },
