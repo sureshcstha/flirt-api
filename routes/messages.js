@@ -42,6 +42,10 @@ module.exports = router;
 
     http://localhost:5000/messages?category={category}
 
+    http://localhost:5000/messages?status={status}
+
+    http://localhost:5000/messages?category=heartfelt&status=draft
+
     http://localhost:5000/messages?category=cute&featured=false
 
     http://localhost:5000/messages?sort=-category

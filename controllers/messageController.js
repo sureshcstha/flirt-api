@@ -10,7 +10,7 @@ const getRandomMessage = async () => {
 const getMessage = async(req, res) => {
     try {
         const validationErrors = [];
-        const validQueryParams = ['random', 'category', 'featured', 'sort', 'select', 'page', 'limit']; // Define supported query parameters
+        const validQueryParams = ['random', 'category', 'featured', 'status', 'sort', 'select', 'page', 'limit']; // Define supported query parameters
 
         // Check if there are any unsupported query parameters
         const queryKeys = Object.keys(req.query);
@@ -33,6 +33,12 @@ const getMessage = async(req, res) => {
             validationErrors.push(`'featured' must be either 'true' or 'false'`);
         }
 
+        // Validate 'status'
+        const validStatuses = ['draft', 'published'];
+        if (req.query.status && !validStatuses.includes(req.query.status)) {
+            validationErrors.push(`Invalid status: ${req.query.status}. Allowed values: 'draft', 'published'`);
+        }
+
         // If there are any validation errors, return them
         if (validationErrors.length > 0) {
             return res.status(400).json({
@@ -43,7 +49,7 @@ const getMessage = async(req, res) => {
             });
         }
 
-        const {message, category, featured, sort, select} = req.query;
+        const {message, category, featured, status, sort, select} = req.query;
         const queryObject = {};
         
         if (category) {
@@ -54,6 +60,12 @@ const getMessage = async(req, res) => {
         }
         if (message) {
             queryObject.message = { $regex: message, $options: 'i' }; // Example: case-insensitive search for message
+        }
+
+        if (status) {
+            queryObject.status = status; // Filter messages based on status
+        } else {
+            queryObject.status = "published"; // Default to published messages
         }
 
         let query = Message.find(queryObject);
