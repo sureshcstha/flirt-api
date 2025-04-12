@@ -41,7 +41,7 @@ exports.sendVerificationEmail = async (email, firstName, verificationToken) => {
 
 exports.resetPasswordEmail = async (firstName, email, resetToken) => {
     try {
-        const resetUrl = `${process.env.APP_URL}/password-reset/${resetToken}`;
+        const resetUrl = `${process.env.FRONTEND_URL}/password-reset/${resetToken}`;
         const expiryTime = (parseInt(process.env.RESET_PASSWORD_EXPIRY, 10) ?? 3600000) / 60000; // Convert ms to minutes
 
         const mailOptions = {
