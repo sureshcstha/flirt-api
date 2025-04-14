@@ -62,22 +62,28 @@ exports.signup = async (req, res) => {
 exports.verify = async (req, res) => {
     try {
       const user = await User.findOne({ verificationToken: req.params.token });
-  
-      if (!user) return res.status(400).json({ message: "Invalid or expired token" });
+      
+      if (!user) {
+        if (req.headers.accept && req.headers.accept.includes("text/html")) {
+            return res.redirect(`${REDIRECT_URL}?status=invalid`);
+        } else {
+            return res.status(400).json({ message: "Invalid or expired token" });
+        }
+      }
   
       // Mark user as verified
       user.isVerified = true;
       user.verificationToken = undefined; // Remove token after verification
       await user.save();
 
-    // Check if request is from a browser or API client
-    if (req.headers.accept && req.headers.accept.includes("text/html")) {
+      // Check if request is from a browser or API client
+      if (req.headers.accept && req.headers.accept.includes("text/html")) {
         // Redirect to frontend login page
-        return res.redirect(`${REDIRECT_URL}?verified=true`);
-    } 
+        return res.redirect(`${REDIRECT_URL}?status=verified`);
+      } 
   
-    // Return JSON response for API requests
-    res.json({ message: "Email verified successfully. You can now log in." });
+      // Return JSON response for API requests
+      res.json({ message: "Email verified successfully. You can now log in." });
     } catch (error) {
       res.status(500).json({ message: "Error verifying email", error });
     }
