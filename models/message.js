@@ -59,7 +59,13 @@ messageSchema.virtual('likeCount').get(function () {
 });
 
 // To include virtuals when converting to JSON or Object
-messageSchema.set('toJSON', { virtuals: true });
+messageSchema.set('toJSON', {
+  virtuals: true,
+  versionKey: false,
+  transform: function (doc, ret) {
+    delete ret.id; // remove the auto-generated `id` alias for `_id`
+  }
+});
 messageSchema.set('toObject', { virtuals: true });
 
 module.exports = mongoose.model("Message", messageSchema);
