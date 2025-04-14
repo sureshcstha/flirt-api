@@ -10,6 +10,7 @@ const {
   getMessageById,
   updateMessage,
   deleteMessage,
+  likeMessage,
   getAllMessagesTesting,
 } = require("../controllers/messageController");
 
@@ -23,6 +24,8 @@ router.route('/message/:id')
   .get(getMessageById) // Get a message by ID
   .put(authenticateUser, authorize(["editor", "admin", "superadmin"]), updateMessage) // Update a message
   .delete(authenticateUser, authorize(["superadmin"]), deleteMessage); // Delete a message
+
+router.patch('/message/:id/like', authenticateUser, likeMessage); // Like/Unlike a message
 
 router.route("/testing").get(getAllMessagesTesting);
 

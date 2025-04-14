@@ -300,6 +300,55 @@ const deleteMessage = async (req, res) => {
     }
 };
 
+// Like a message | Unlike a message
+const likeMessage = async (req, res) => {
+    try {
+      const message = await Message.findById(req.params.id);
+  
+      if (!message) {
+        return res.status(404).json({ error: "Message not found." });
+      }
+  
+      const userId = req.user?._id;  // Check if the user is authenticated
+  
+      if (!userId) {
+        return res.status(401).json({ error: "You must be logged in to like or unlike a message." });
+      }
+  
+      // Check if the user has already liked the message
+      const hasLiked = message.likedBy.includes(userId);
+  
+      if (hasLiked) {
+        // If the user has liked it, use pull to remove them from the likedBy array (unlike)
+        message.likedBy.pull(userId);
+        await message.save();
+  
+        // Respond with updated like count and hasLiked as false
+        const response = {
+          ...message.toObject(),
+          likeCount: message.likedBy.length,
+          hasLiked: false
+        };
+        return res.status(200).json(response);
+      } else {
+        // If the user hasn't liked it, add them to the likedBy array (like)
+        message.likedBy.push(userId);
+        await message.save();
+  
+        // Respond with updated like count and hasLiked as true
+        const response = {
+          ...message.toObject(),
+          likeCount: message.likedBy.length,
+          hasLiked: true
+        };
+        return res.status(200).json(response);
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Something went wrong." });
+    }
+};
+  
+
 const getAllMessagesTesting = async(req, res) => {
     try {
         const pickupLines = await Message.find({});
@@ -319,4 +368,4 @@ const getAllMessagesTesting = async(req, res) => {
     }
 };
 
-module.exports = { getMessage, getAllCategories, createMessage, getMessageById, updateMessage, deleteMessage, getAllMessagesTesting };
+module.exports = { getMessage, getAllCategories, createMessage, getMessageById, updateMessage, deleteMessage, likeMessage, getAllMessagesTesting };
