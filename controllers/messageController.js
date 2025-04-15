@@ -103,6 +103,8 @@ const getMessage = async(req, res) => {
             });
         }
 
+        const userId = req.user?._id;
+
         if (req.query.random === 'true') {
             // Return a single random message if 'random=true' is passed in the query parameters
             const randomMessage = await getRandomMessage();
@@ -115,11 +117,25 @@ const getMessage = async(req, res) => {
         } else {
             // Return all messages if no 'random=true' query parameter is passed
             const pickupLines = await query;
+
+            const messagesWithLikes = pickupLines.map((msg) => {
+                const messageData = {
+                    ...msg.toObject(),
+                    likeCount: msg.likedBy.length,
+                };
+            
+                if (userId) {
+                    messageData.hasLiked = msg.likedBy.includes(userId);
+                }
+            
+                return messageData;
+            });
+
             return res.status(200).json({
                 status: 200,
                 statusText: 'OK',
                 message: 'All love messages retrieved successfully',
-                data: pickupLines,
+                data: messagesWithLikes,
                 pagination: {
                     total: totalMessages,
                     page: page,

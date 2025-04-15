@@ -66,6 +66,12 @@ messageSchema.set('toJSON', {
     delete ret.id; // remove the auto-generated `id` alias for `_id`
   }
 });
-messageSchema.set('toObject', { virtuals: true });
+messageSchema.set('toObject', {
+  virtuals: true,
+  versionKey: false,
+  transform: function (doc, ret) {
+    delete ret.id;
+  }
+});
 
 module.exports = mongoose.model("Message", messageSchema);

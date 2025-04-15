@@ -24,3 +24,5 @@ const authenticateUser = async (req, res, next) => {
 };
 
 module.exports = authenticateUser;
+
+// blocks access if no or invalid token → great for secure actions

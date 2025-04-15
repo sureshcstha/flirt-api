@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const authenticateUser = require("../middleware/authenticateUser");
+const tryAuthenticateUser = require("../middleware/tryAuthenticateUser");
 const authorize = require("../middleware/authorize");
 
 const {
@@ -14,7 +15,7 @@ const {
   getAllMessagesTesting,
 } = require("../controllers/messageController");
 
-router.route("/").get(getMessage); // Get all messages
+router.route("/").get(tryAuthenticateUser, getMessage); // Get all messages
 router.route("/categories").get(getAllCategories); // Get all categories
 
 router.route("/message")
