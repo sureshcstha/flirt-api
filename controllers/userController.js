@@ -92,7 +92,9 @@ exports.verify = async (req, res) => {
 
 // Allow users to authenticate
 exports.login = async (req, res) => {
-    const { email, password } = req.body;
+    let { email, password } = req.body;
+
+    email = sanitizeInput(email);
 
     if (!email || !password) {
         return res.status(400).json({ error: "Email and password are required." });
@@ -195,7 +197,9 @@ exports.refreshToken = async (req, res) => {
 
 // Change Password
 exports.changePassword = async (req, res) => {
-    const { email, currentPassword, newPassword } = req.body;
+    let { email, currentPassword, newPassword } = req.body;
+
+    email = sanitizeInput(email);
 
     if (!email || !currentPassword || !newPassword) {
         return res.status(400).json({ error: "Email, current password, and new password are required." });
@@ -234,7 +238,9 @@ exports.changePassword = async (req, res) => {
 
 // Allow users to delete their account.
 exports.deleteUser = async (req, res) => {
-  const { email, password } = req.body;
+  let { email, password } = req.body;
+
+  email = sanitizeInput(email);
 
   if (!email || !password) {
       return res.status(400).json({ error: "Email and password are required." });
@@ -264,7 +270,10 @@ exports.deleteUser = async (req, res) => {
 
 // Forgot Password
 exports.forgotPassword = async (req, res) => {
-    const { email } = req.body;
+    let { email } = req.body;
+
+    email = sanitizeInput(email);
+
     if (!email) return res.status(400).json({ error: "Email is required" });
 
     try {
