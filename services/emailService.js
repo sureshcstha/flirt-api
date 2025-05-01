@@ -8,36 +8,51 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-exports.sendVerificationEmail = async (email, firstName, verificationToken) => {
-    try {
-        const verificationLink = `${process.env.APP_URL}/users/verify/${verificationToken}`;
+// Function to send the verification email with retry logic
+const sendVerificationEmailWithRetry = async (email, firstName, verificationToken, retries = 3, delay = 5000) => {
+    let attempt = 0;
+    while (attempt < retries) {
+        try {
+            const verificationLink = `${process.env.APP_URL}/users/verify/${verificationToken}`;
+            const mailOptions = {
+                from: `"Suresh Shrestha" <${process.env.EMAIL_USER}>`,
+                to: email,
+                subject: "Verify your email",
+                html: `
+                    <div style="font-size:15px;">
+                        <p>Hi ${firstName},</p>
+                        <p>
+                            Thank you for signing up! Please click <a href="${verificationLink}">here</a> to verify your email address.
+                        </p>
+                        <p>Best regards,
+                        <br>
+                        ${process.env.SENDER_NAME}</p>
+                    </div>
+                    <hr>
+                    <p style="font-size:12px; color:gray;">
+                        If you received this email by mistake, you can safely ignore or delete it.
+                    </p>`,
+            };
 
-        const mailOptions = {
-            from: `"Suresh Shrestha" <${process.env.EMAIL_USER}>`,
-            to: email,
-            subject: "Verify your email",
-            html: `
-                <div style="font-size:15px;">
-                    <p>Hi ${firstName},</p>
-                    <p>
-                        Thank you for signing up! Please click <a href="${verificationLink}">here</a> to verify your email address.
-                    </p>
-                    <p>Best regards,
-                    <br>
-                    ${process.env.SENDER_NAME}</p>
-                </div>
-                <hr>
-                <p style="font-size:12px; color:gray;">
-                    If you received this email by mistake, you can safely ignore or delete it.
-                </p>`,
-        };
+            // Try to send the email
+            await transporter.sendMail(mailOptions);
+            console.log(`Email sent to ${email}`);
+            return; // Exit if successful
+        } catch (error) {
+            attempt++;
+            console.error(`Attempt ${attempt} failed: ${error.message}`);
 
-        await transporter.sendMail(mailOptions);
-        console.log(`Email sent to ${email}`);
-    } catch (error) {
-        console.error(`Failed to send email to ${email}:`, error);
+            if (attempt < retries) {
+                console.log(`Retrying in ${delay / 1000} seconds...`);
+                await new Promise(resolve => setTimeout(resolve, delay)); // Wait before retrying
+            } else {
+                console.error("Max retries reached. Email could not be sent.");
+            }
+        }
     }
 };
+
+exports.sendVerificationEmail = sendVerificationEmailWithRetry;
 
 exports.resetPasswordEmail = async (firstName, email, resetToken) => {
     try {

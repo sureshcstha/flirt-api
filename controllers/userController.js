@@ -55,10 +55,13 @@ exports.signup = async (req, res) => {
             role
         });
 
-        await Promise.all([
-            user.save(), 
-            sendVerificationEmail(email, firstName, verificationToken)
-        ]);
+        await user.save();
+
+        try {
+            await sendVerificationEmail(email, firstName, verificationToken);
+        } catch (emailError) {
+            console.error("Email sending failed:", emailError.message);
+        }
 
         res.status(201).json({ message: "Signup successful. Please check your email to verify your account." });
     } catch (error) {
