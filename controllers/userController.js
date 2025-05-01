@@ -23,6 +23,15 @@ exports.signup = async (req, res) => {
       return res.status(400).json({ error: "First name, email and password are required." });
     }
 
+    // Password format check before hitting DB
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^?&*()-_+=\[\]{}~`])[A-Za-z\d!@#$%^?&*()-_+=\[\]{}~`]{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+        return res.status(400).json({
+            error: "Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, one number, and one special character."
+        });
+    }
+
     try {
         let user = await User.findOne({ email: email.toLowerCase() });
 
