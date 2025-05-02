@@ -1,10 +1,11 @@
 const express = require("express");
 const authenticateUser = require("../middleware/authenticateUser");
-const { signup, verify, login, refreshToken, changePassword, forgotPassword, resetPassword, logout, deleteUser } = require('../controllers/userController');
+const { signup, resendVerification, verify, login, refreshToken, changePassword, forgotPassword, resetPassword, logout, deleteUser } = require('../controllers/userController');
 
 const router = express.Router();
 
 router.post('/signup', signup);
+router.post('/resend-verification', resendVerification);
 router.get('/verify/:token', verify);
 router.post("/login", login);
 router.post("/refresh-token", refreshToken);

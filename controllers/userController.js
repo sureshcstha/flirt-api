@@ -70,6 +70,47 @@ exports.signup = async (req, res) => {
     }
 };
 
+// Resend Verification Email
+exports.resendVerification = async (req, res) => {
+    let { email } = req.body;
+
+    email = sanitizeInput(email);
+
+    if (!email) {
+        return res.status(400).json({ error: "Email is required." });
+    }
+
+    try {
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ error: "User not found." });
+        }
+
+        if (user.isVerified) {
+            return res.status(400).json({ error: "Email is already verified." });
+        }
+
+        // Generate a new verification token
+        const verificationToken = crypto.randomBytes(16).toString("hex");
+        user.verificationToken = verificationToken;
+        await user.save();
+
+        // Send verification email
+        try {
+            await sendVerificationEmail(user.email, user.firstName, verificationToken);
+        } catch (emailError) {
+            console.error("Failed to send verification email:", emailError.message);
+            return res.status(500).json({ error: "Failed to send verification email." });
+        }
+
+        res.json({ message: "Verification email has been resent." });
+    } catch (error) {
+        console.error("Resend verification email error:", error);
+        res.status(500).json({ error: "Internal server error." });
+    }
+};
+
 // Verify User Email
 exports.verify = async (req, res) => {
     try {
@@ -86,6 +127,7 @@ exports.verify = async (req, res) => {
       // Mark user as verified
       user.isVerified = true;
       user.verificationToken = undefined; // Remove token after verification
+      user.lastVerificationEmailSentAt = undefined;
       await user.save();
 
       // Check if request is from a browser or API client
@@ -120,13 +162,34 @@ exports.login = async (req, res) => {
         }
 
         if (!user.isVerified) {
-            return res.status(401).json({ error: "Please verify your email first." });  
-        } 
+            const now = new Date();
+            const lastSent = user.lastVerificationEmailSentAt || new Date(0);
+            const oneDayInMs = 24 * 60 * 60 * 1000;
+
+            // send only one verification email per day
+            if (now - lastSent > oneDayInMs) {
+                // Generate a new token
+                const newToken = crypto.randomBytes(16).toString("hex");
+                user.verificationToken = newToken;
+                await user.save();
+
+                // Send verification email
+                try {
+                    await sendVerificationEmail(user.email, user.firstName, newToken);
+                } catch (emailError) {
+                    console.error("Verification email failed to send:", emailError.message);
+                }
+            }
+
+            return res.status(401).json({
+                error: "Your email is not verified. Please check your email — a new verification link has been sent if you haven't received one in the last 24 hours.",
+            });
+        }
 
         // Check if password is correct
         const isMatch = await user.comparePassword(password);
         if (!isMatch) {
-            return res.status(401).json({ error: "Invalid credentials." });
+            return res.status(401).json({ error: "Invalid email or password." });
         }
 
        // Generate access token

@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema({
         default: "contributor"
     },
     verificationToken: { type: String },
+    lastVerificationEmailSentAt: { type: Date, default: Date.now },
     isVerified: { type: Boolean, default: false },
     resetPasswordToken: { type: String },
     resetPasswordExpires: { type: Date },
