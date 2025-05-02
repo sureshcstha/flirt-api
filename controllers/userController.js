@@ -120,7 +120,7 @@ exports.login = async (req, res) => {
         }
 
         if (!user.isVerified) {
-            return res.status(401).json({ message: "Please verify your email first." });  
+            return res.status(401).json({ error: "Please verify your email first." });  
         } 
 
         // Check if password is correct
