@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 const User = require("../models/User");
+const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const { sendVerificationEmail, resetPasswordEmail } = require("../services/emailService");
 const { sanitizeInput } = require('../utils/helpers');
@@ -9,7 +10,7 @@ const isProduction = process.env.NODE_ENV === "production";
 
 // Define expiration times
 const accessTokenExpiresIn = 30 * 60; // 30 minutes
-const refreshTokenExpiresIn = 7 * 24 * 60 * 60; // 7 days
+const refreshTokenExpiresIn = 90 * 24 * 60 * 60; // 90 days
 
 // User Signup
 exports.signup = async (req, res) => {
@@ -120,7 +121,7 @@ exports.verify = async (req, res) => {
         if (req.headers.accept && req.headers.accept.includes("text/html")) {
             return res.redirect(`${REDIRECT_URL}?status=invalid`);
         } else {
-            return res.status(400).json({ message: "Invalid or expired token" });
+            return res.status(400).json({ error: "Invalid or expired token" });
         }
       }
   
@@ -435,5 +436,40 @@ exports.logout = async (req, res) => {
     } catch (error) {
         console.error("Logout error:", error);
         res.status(500).json({ error: "Logout failed. Please try again." });
+    }
+};
+
+
+// Get all users
+exports.getAllUsers = async (req, res) => {
+    try {
+      const users = await User.find().select("_id email role");
+      res.json(users);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+};
+
+// Update user role
+exports.updateUserRole = async (req, res) => {
+    const { role } = req.body;
+    const { id } = req.params;
+
+    const allowedRoles = ["guest", "contributor", "editor", "admin", "superadmin"];
+    if (!allowedRoles.includes(role)) {
+      return res.status(400).json({ error: "Invalid role" });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ error: 'Invalid user ID' });
+    }
+  
+    try {
+      const user = await User.findByIdAndUpdate(id, { role }, { new: true });
+      if (!user) 
+        return res.status(404).json({ error: "User not found" });
+      res.json(user);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
     }
 };
