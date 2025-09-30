@@ -1,12 +1,5 @@
-const nodemailer = require("nodemailer");
-
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
-  },
-});
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // Function to send the verification email with retry logic
 const sendVerificationEmailWithRetry = async (email, firstName, verificationToken, retries = 3, delay = 5000) => {
@@ -14,9 +7,12 @@ const sendVerificationEmailWithRetry = async (email, firstName, verificationToke
     while (attempt < retries) {
         try {
             const verificationLink = `${process.env.APP_URL}/users/verify/${verificationToken}`;
-            const mailOptions = {
-                from: `"Suresh Shrestha" <${process.env.EMAIL_USER}>`,
+            const msg = {
                 to: email,
+                from: {
+                    email: process.env.SENDER_EMAIL,
+                    name: process.env.SENDER_NAME || 'Suresh Shrestha'
+                },
                 subject: "Verify your email",
                 html: `
                     <div style="font-size:15px;">
@@ -34,8 +30,7 @@ const sendVerificationEmailWithRetry = async (email, firstName, verificationToke
                     </p>`,
             };
 
-            // Try to send the email
-            await transporter.sendMail(mailOptions);
+            await sgMail.send(msg);
             console.log(`Email sent to ${email}`);
             return; // Exit if successful
         } catch (error) {
@@ -54,14 +49,18 @@ const sendVerificationEmailWithRetry = async (email, firstName, verificationToke
 
 exports.sendVerificationEmail = sendVerificationEmailWithRetry;
 
+// Reset password email
 exports.resetPasswordEmail = async (firstName, email, resetToken) => {
     try {
         const resetUrl = `${process.env.FRONTEND_URL}/password-reset/${resetToken}`;
         const expiryTime = (parseInt(process.env.RESET_PASSWORD_EXPIRY, 10) ?? 3600000) / 60000; // Convert ms to minutes
 
-        const mailOptions = {
-            from: `"Suresh Shrestha" <${process.env.EMAIL_USER}>`,
+        const msg = {
             to: email,
+            from: {
+                email: process.env.SENDER_EMAIL,
+                name: process.env.SENDER_NAME || 'Suresh Shrestha'
+            },
             subject: "Password reset request",
             html: `
                 <div style="font-size:15px;">
@@ -79,7 +78,7 @@ exports.resetPasswordEmail = async (firstName, email, resetToken) => {
                 </p>`,
         };
 
-        await transporter.sendMail(mailOptions);
+        await sgMail.send(msg);
         console.log(`Email sent to ${email}`);
     } catch (error) {
         console.error("Forgot password error:", error);

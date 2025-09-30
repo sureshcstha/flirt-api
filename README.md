@@ -21,7 +21,7 @@ A RESTful API built with Node.js, Express, and MongoDB to manage and serve love 
 
 - **sanitize-html** – Prevent HTML/JS injection in messages
 ### Email
-- **nodemailer** – Sending verification and password reset emails
+- **SendGrid Web API** – Sending verification and password reset emails
 ### Utilities
 - **dotenv** – Environment variable management
 
@@ -126,6 +126,8 @@ USER_VERIFICATION_REDIRECT_URL=http://localhost:5173/login
 RESET_PASSWORD_EXPIRY=1800000   # 30 minutes in milliseconds (adjust as needed)
 NODE_ENV=production
 FRONTEND_URL=http://localhost:5173
+SENDGRID_API_KEY=your_sendgrid_api_key
+SENDER_EMAIL=your_verified_sendgrid_email
 ```
 
 ### Run the Development Server
@@ -240,4 +242,4 @@ GET /messages?page=2&limit=10
 - Returns standard HTTP status codes with JSON error messages.
 
 ## Author
-Developed by Suresh Shrestha — feel free to reach out at sureshshr91@gmail.com
+Developed by [Suresh Shrestha](https://www.linkedin.com/in/sureshcstha/) — feel free to reach out at sureshshr91@gmail.com
